@@ -5,7 +5,26 @@ module.exports = async function (context, req) {
     context.log('Search HTTP trigger received a request');
 
     let apiKey = process.env.APIKEY;
+    
+    if(apiKey === undefined || apiKey === null || apiKey === "") { 
+        context.log("APIKEY is missing");
+        context.res = {
+            status: 500,
+            body: {error: "APIKEY is missing"}
+        }
+        return context.resp;
+    }
+    console.log("Hmmmm");
+
     let cxKey = process.env.CXKEY;
+    if(cxKey === undefined || cxKey === null || cxKey === "") {
+        context.log("CXKEY is missing");
+        context.res = {
+            status: 500,
+            body: {error: "CXKEY is missing"}
+        }
+        return context.resp;
+    }
     
     let searchStr = (req.query.q || '*') + " site:support.office.com";
     
