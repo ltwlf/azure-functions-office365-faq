@@ -4,7 +4,7 @@ module.exports = async function (context, req) {
 
     context.log('Search HTTP trigger received a request');
 
-    let apiKey = process.env.APIKEY;
+    let apiKey = process.env.APIKEY
     
     if(apiKey === undefined || apiKey === null || apiKey === "") { 
         context.log("APIKEY is missing");
@@ -14,7 +14,6 @@ module.exports = async function (context, req) {
         }
         return context.resp;
     }
-    console.log("Hmmmm");
 
     let cxKey = process.env.CXKEY;
     if(cxKey === undefined || cxKey === null || cxKey === "") {
@@ -27,6 +26,7 @@ module.exports = async function (context, req) {
     }
     
     let searchStr = (req.query.q || '*') + " site:support.office.com";
+    let limit = req.query.limit || 4;
     
     var json = await new Promise((resolve, reject) => {
         https.get(`https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${cxKey}&q=${searchStr}`, (resp) => {
@@ -46,10 +46,20 @@ module.exports = async function (context, req) {
         })
     });
 
+    if(json.items === undefined || json.items === null || json.items.length == 0)
+    {
+        context.res = {
+            status: 200,
+            body: []
+        }
+        return context.resp;
+    }
+
     context.res = {
         status: 200,
         body: json.items
             .filter((v, i) => { return v.pagemap.metatags[0]['ms.audience']!=='Admin' })
+            .slice(0, limit)
             .map((v,i) => {
                 return {
                     title: v.pagemap.metatags[0]['og:title'] || v.title,
