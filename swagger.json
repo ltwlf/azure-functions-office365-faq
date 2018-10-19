@@ -1,0 +1,83 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Office 365 FAQ",
+    "description": "",
+    "version": "1.0"
+  },
+  "host": "",
+  "basePath": "/api",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/search": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "title"
+                  },
+                  "link": {
+                    "type": "string",
+                    "description": "link"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "description"
+                  },
+                  "thumbnail": {
+                    "type": "string",
+                    "description": "thumbnail"
+                  },
+                  "video": {
+                    "type": "string",
+                    "description": "video"
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "description": "Content-Type",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "summary": "Ask a question",
+        "description": "Question",
+        "operationId": "SendQuestion",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {},
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "in": "query",
+      "name": "code"
+    }
+  },
+  "security": [],
+  "tags": []
+}
