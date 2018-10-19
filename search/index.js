@@ -50,6 +50,9 @@ module.exports = async function (context, req) {
     {
         context.res = {
             status: 200,
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: []
         }
         return context.resp;
@@ -57,6 +60,9 @@ module.exports = async function (context, req) {
 
     context.res = {
         status: 200,
+        headers: {
+            "Content-Type": "application/json"
+        },
         body: json.items
             .filter((v, i) => { return v.pagemap.metatags[0]['ms.audience']!=='Admin' })
             .slice(0, limit)
