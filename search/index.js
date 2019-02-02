@@ -26,6 +26,7 @@ module.exports = async function (context, req) {
     }
     
     let searchStr = (req.query.q || '*') + " site:support.office.com";
+     
     let limit = req.query.limit || 4;
     
     var json = await new Promise((resolve, reject) => {
@@ -64,7 +65,7 @@ module.exports = async function (context, req) {
             "Content-Type": "application/json"
         },
         body: json.items
-            .filter((v, i) => { return v.pagemap.metatags[0]['ms.audience']!=='Admin' })
+            .filter((v, i) => { return (req.query.admin == 'true' || v.pagemap.metatags[0]['ms.audience']!=='Admin') })
             .slice(0, limit)
             .map((v,i) => {
                 return {
