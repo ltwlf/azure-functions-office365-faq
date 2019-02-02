@@ -3,6 +3,13 @@ const https = require('https');
 module.exports = async function (context, req) {
 
     context.log('Search HTTP trigger received a request');
+    
+    if(req.query.warmup === "true"){
+        context.res = {
+            status: 200
+        }
+        return context.resp;
+    }
 
     let apiKey = process.env.APIKEY
     
